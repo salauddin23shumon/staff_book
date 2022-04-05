@@ -8,6 +8,8 @@ import 'package:drift/drift.dart' as drift;
 import 'package:provider/provider.dart';
 import 'dart:developer' as dev;
 
+import '../widget/toast_uitlity.dart';
+
 class AddEmployeeScreen extends StatefulWidget {
   const AddEmployeeScreen({Key? key}) : super(key: key);
   @override
@@ -42,7 +44,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _dateOfBirthController.dispose();
-    _employeeChangeNotifier.removeListener(providerListener);    
+    // _employeeChangeNotifier.dispose();
+    _employeeChangeNotifier.removeListener(providerListener);
     super.dispose();
   }
   
@@ -62,41 +65,43 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                CustomTextFormField(controller: _userNameController, txtLable: 'User Name',),
-                const SizedBox(height: 8.0,),
-                CustomTextFormField(controller: _firstNameController, txtLable: 'First Name',),
-                const SizedBox(height: 8.0,),
-                CustomTextFormField(controller: _lastNameController, txtLable: 'Last Name',),
-                const SizedBox(height: 8.0,),
-                CustomDatePickerFormFiled(
-                  controller: _dateOfBirthController, txtLabel: 'Date of birth', callback: () {
-                    pickDateOfBirth(context);
-                  }),
-                const SizedBox(height: 8.0,),  
-                CheckboxListTile(
-                  title: const Text('isActive'),
-                  activeColor: Colors.pink,
-                  value: _isActive, 
-                  onChanged: (value) {
-                    setState(() {
-                      _isActive = value ?? false;
-                    });
-                  }
-                ), 
-                ],
-              )
-            ),
-                 
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                  CustomTextFormField(controller: _userNameController, txtLable: 'User Name',),
+                  const SizedBox(height: 8.0,),
+                  CustomTextFormField(controller: _firstNameController, txtLable: 'First Name',),
+                  const SizedBox(height: 8.0,),
+                  CustomTextFormField(controller: _lastNameController, txtLable: 'Last Name',),
+                  const SizedBox(height: 8.0,),
+                  CustomDatePickerFormFiled(
+                    controller: _dateOfBirthController, txtLabel: 'Date of birth', callback: () {
+                      pickDateOfBirth(context);
+                    }),
+                  const SizedBox(height: 8.0,),  
+                  CheckboxListTile(
+                    title: const Text('isActive'),
+                    activeColor: Colors.pink,
+                    value: _isActive, 
+                    onChanged: (value) {
+                      setState(() {
+                        _isActive = value ?? false;
+                      });
+                    }
+                  ), 
+                  ],
+                )
+              ),
+                   
+            ],
 
+          ),
         ),
       ),
     );
@@ -112,7 +117,7 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
       builder: (context, child) => Theme(
         data: ThemeData().copyWith(
           colorScheme: const ColorScheme.light(
-            primary: Colors.pink,
+            primary: Colors.blue,
             onPrimary: Colors.white,
             onSurface: Colors.black
           ),
@@ -147,6 +152,8 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
       );
 
       context.read<EmployeeChangeNotifier>().createEmployee(entity);
+      ToastUtility.showToast('added successfully');
+      Navigator.pop(context);
 
       // Provider.of<AppDb>(context, listen: false).insertEmployee(entity).then((value) => ScaffoldMessenger.of(context)
       //     .showMaterialBanner(
@@ -166,18 +173,21 @@ class _AddEmployeeScreenState extends State<AddEmployeeScreen> {
 
   void providerListener(){
     if (_employeeChangeNotifier.isAdded) {
-      ScaffoldMessenger.of(context)
-      .showMaterialBanner(
-        MaterialBanner(
-          backgroundColor: Colors.pink,
-          content: const Text('New employee inserted:',style:  TextStyle(color: Colors.white)), 
-          actions: [
-            TextButton(
-              onPressed: () => ScaffoldMessenger.of(context).hideCurrentMaterialBanner(), 
-              child: const Text('Close',style: TextStyle(color: Colors.white),))
-          ],
-        ),
-      );
+      // ScaffoldMessenger.of(context)
+      // .showMaterialBanner(
+      //   MaterialBanner(
+      //     backgroundColor: Colors.pink,
+      //     content: const Text('New employee inserted:',style:  TextStyle(color: Colors.white)),
+      //     actions: [
+      //       TextButton(
+      //         onPressed: () => ScaffoldMessenger.of(context).hideCurrentMaterialBanner(),
+      //         child: const Text('Close',style: TextStyle(color: Colors.white),))
+      //     ],
+      //   ),
+      // );
+
+      ToastUtility.showToast('added successfully');
+      Navigator.pop(context);
 
     }
     

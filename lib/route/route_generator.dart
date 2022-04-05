@@ -5,6 +5,8 @@ import 'package:my_staff_book/screen/edit_employee_screen.dart';
 import 'package:my_staff_book/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../data/local/model/employee_data.dart';
+
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
 
@@ -16,14 +18,12 @@ class RouteGenerator {
       case '/add_employee':
         return MaterialPageRoute(builder: (_) => const AddEmployeeScreen()); 
        case '/edit_employee':
-        if (args is int) {
-          return MaterialPageRoute(builder: (_) =>  EditEmployeeScreen(id: args)); 
+        if (args is EmployeeData) {
+          return MaterialPageRoute(builder: (_) =>  EditEmployeeScreen(data: args));
         }
         return _errorRoute(); 
         case '/add_address':
-        if (args is int) {
-          return MaterialPageRoute(builder: (_) =>  AddAddress(id: args)); 
-        }
+          return MaterialPageRoute(builder: (_) =>  AddAddress());
         return _errorRoute();          
       default:
         return _errorRoute();

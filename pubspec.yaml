@@ -16,7 +16,7 @@ dependencies:
   path: ^1.8.1
   intl: ^0.17.0
   provider: ^6.0.2
-
+  fluttertoast: ^8.0.9
  
 
 dev_dependencies:
@@ -41,5 +41,4 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+

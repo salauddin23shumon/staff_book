@@ -14,23 +14,88 @@ class EmployeeAddressScreen extends StatelessWidget {
         title: const Text('Address'),
         centerTitle: true,
       ),
-      body: Selector<EmployeeAddressChangeNotifier,List<EmployeeAddressData>>(
-        selector: (context,notifier) => notifier.allEmployeeList,
-        builder: (context, addressList,child) {
-          return ListView.builder(
-            itemCount: addressList.length,
-            itemBuilder: (context, index){
-              final address = addressList[index];
+      body:
+      StreamBuilder<List<EmployeeAddressData>>(
+        stream: Provider.of<AppDb>(context).getEmployeeAddressList(),
+        builder: (context, snapshot) {
+          final List<EmployeeAddressData>? addresses = snapshot.data;
+          if (snapshot.hasData) {
+            debugPrint('Got new data');
+          }
 
-              return ListTile(
-                title: Text(address.street),
-                subtitle: Text(address.country),
-              );
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-            }
-          );
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          }
+          if (addresses != null) {
+
+            return ListView.builder(
+                itemCount: addresses.length,
+                itemBuilder: (context, index) {
+
+                  final address = addresses[index];
+                  return GestureDetector(
+                    onTap: ()  {
+                      Navigator.pushNamed(context, '/edit_employee',arguments: address);
+                    },
+                    child: Card(
+                      //color: Colors.grey.shade400,
+                      shape: const RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Colors.purple,
+                              style: BorderStyle.solid,
+                              width: 1.2
+                          ),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.0),
+                              bottomRight: Radius.circular(16.0)
+                          )
+
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('id: ${address.id}'),
+                            Text('street: ${address.street}',style: const TextStyle(color: Colors.black),),
+                            Text('city: ${address.country}',style: const TextStyle(color: Colors.black),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                });
+          }
+
+          return const Text('No data found');
+
         },
       ),
+      // Selector<EmployeeAddressChangeNotifier,List<EmployeeAddressData>>(
+      //   selector: (context,notifier) => notifier.allEmployeeList,
+      //   builder: (context, addressList,child) {
+      //     return ListView.builder(
+      //       itemCount: addressList.length,
+      //       itemBuilder: (context, index){
+      //         final address = addressList[index];
+      //
+      //         return ListTile(
+      //           title: Text(address.street),
+      //           subtitle: Text(address.country),
+      //         );
+      //
+      //       }
+      //     );
+      //   },
+      // ),
     );
   }
 }
