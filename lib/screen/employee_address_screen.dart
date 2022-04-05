@@ -1,7 +1,6 @@
 
-import 'package:my_staff_book/data/local/db/app_db.dart';
-import 'package:my_staff_book/noifier/employee_address_change_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:my_staff_book/data/local/db/app_db.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeAddressScreen extends StatelessWidget {
@@ -11,7 +10,7 @@ class EmployeeAddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Address'),
+        title: const Text('Employee Address'),
         centerTitle: true,
       ),
       body:
@@ -43,7 +42,7 @@ class EmployeeAddressScreen extends StatelessWidget {
                   final address = addresses[index];
                   return GestureDetector(
                     onTap: ()  {
-                      Navigator.pushNamed(context, '/edit_employee',arguments: address);
+                      // Navigator.pushNamed(context, '/edit_employee',arguments: address);
                     },
                     child: Card(
                       //color: Colors.grey.shade400,
@@ -74,28 +73,9 @@ class EmployeeAddressScreen extends StatelessWidget {
                   );
                 });
           }
-
           return const Text('No data found');
-
         },
       ),
-      // Selector<EmployeeAddressChangeNotifier,List<EmployeeAddressData>>(
-      //   selector: (context,notifier) => notifier.allEmployeeList,
-      //   builder: (context, addressList,child) {
-      //     return ListView.builder(
-      //       itemCount: addressList.length,
-      //       itemBuilder: (context, index){
-      //         final address = addressList[index];
-      //
-      //         return ListTile(
-      //           title: Text(address.street),
-      //           subtitle: Text(address.country),
-      //         );
-      //
-      //       }
-      //     );
-      //   },
-      // ),
     );
   }
 }

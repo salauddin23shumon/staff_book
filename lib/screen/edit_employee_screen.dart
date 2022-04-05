@@ -48,7 +48,6 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
     _employeeChangeNotifier =
         Provider.of<EmployeeChangeNotifier>(context, listen: false);
     _employeeChangeNotifier.addListener(providerListener);
-    //getEmployee();
   }
 
   @override
@@ -57,14 +56,13 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _dateOfBirthController.dispose();
-    // _employeeChangeNotifier.dispose();
     _employeeChangeNotifier.removeListener(providerListener);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.data.id);
+    // print(widget.data.id);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Employee'),
@@ -220,43 +218,11 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
       );
 
       context.read<EmployeeChangeNotifier>().updateEmployee(entity);
-
-      ToastUtility.showToast('updated successfully');
-      Navigator.pop(context);
-
-      // Provider.of<AppDb>(context, listen: false).updateEmployee(entity).then((value) => ScaffoldMessenger.of(context)
-      //   .showMaterialBanner(
-      //     MaterialBanner(
-      //       backgroundColor: Colors.pink,
-      //       content: Text('Employee updated : $value',style: const TextStyle(color: Colors.white)),
-      //       actions: [
-      //         TextButton(
-      //           onPressed: () => ScaffoldMessenger.of(context).hideCurrentMaterialBanner(),
-      //           child: const Text('Close',style: TextStyle(color: Colors.white),))
-      //       ],
-      //     ),
-      //     ),
-      //   );
     }
   }
 
   void deleteEmployee() {
     context.read<EmployeeChangeNotifier>().deleteEmployee(widget.data.id);
-    ToastUtility.showToast('deleted successfully');
-    Navigator.pop(context);
-    // Provider.of<AppDb>(context, listen: false).deleteEmployee(widget.id).then((value) =>ScaffoldMessenger.of(context)
-    // .showMaterialBanner(
-    //   MaterialBanner(
-    //     backgroundColor: Colors.pink,
-    //     content: Text('Employee deleted : $value',style: const TextStyle(color: Colors.white)),
-    //     actions: [
-    //       TextButton(
-    //         onPressed: () => ScaffoldMessenger.of(context).hideCurrentMaterialBanner(),
-    //         child: const Text('Close',style: TextStyle(color: Colors.white),))
-    //     ],
-    //   ),
-    // ),
-    // );
   }
 
   void providerListener() {
@@ -274,60 +240,15 @@ class _EditEmployeeScreenState extends State<EditEmployeeScreen> {
   void listenDelete() {
     ToastUtility.showToast('deleted successfully');
     Navigator.pop(context);
-    // ScaffoldMessenger.of(context)
-    // .showMaterialBanner(
-    //   MaterialBanner(
-    //     backgroundColor: Colors.pink,
-    //     content: const Text('Employee deleted ',style:  TextStyle(color: Colors.white)),
-    //     actions: [
-    //       TextButton(
-    //         onPressed: ()  {
-    //           ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-    //           context.read<EmployeeChangeNotifier>().setIsDeleted(false);
-    //         },
-    //         child: const Text('Close',style: TextStyle(color: Colors.white),))
-    //     ],
-    //   ),
-    // );
   }
 
   void listenUpdate() {
     ToastUtility.showToast('update success');
     Navigator.pop(context);
-    // ScaffoldMessenger.of(context)
-    //   .showMaterialBanner(
-    //     MaterialBanner(
-    //       backgroundColor: Colors.pink,
-    //       content: const Text('Employee updated ',style:  TextStyle(color: Colors.white)),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () {
-    //              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-    //              context.read<EmployeeChangeNotifier>().setIsUpdated(false);
-    //           },
-    //           child: const Text('Close',style: TextStyle(color: Colors.white),))
-    //       ],
-    //     ),
-    //   );
   }
 
   void listenError(String errorMsg) {
     ToastUtility.showToast(errorMsg);
-    // ScaffoldMessenger.of(context)
-    //   .showMaterialBanner(
-    //     MaterialBanner(
-    //       backgroundColor: Colors.pink,
-    //       content: Text(errorMsg,style: const TextStyle(color: Colors.white)),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () {
-    //              ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-    //              context.read<EmployeeChangeNotifier>().setErrorMsg('');
-    //           },
-    //           child: const Text('Close',style: TextStyle(color: Colors.white),))
-    //       ],
-    //     ),
-    //   );
   }
 
   void setEmployee(EmployeeData? data) {

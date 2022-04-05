@@ -1,7 +1,6 @@
-import 'dart:async';
-
-import 'package:my_staff_book/data/local/db/app_db.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_staff_book/data/local/db/app_db.dart';
 import 'package:provider/provider.dart';
 
 import '../data/local/model/employee_data.dart';
@@ -82,7 +81,7 @@ class _EmployeeStreamScreenState extends State<EmployeeStreamScreen> {
                           children: [
                             Text('id: ${employee.id}'),
                             Text(
-                              'username: ${employee.userName}',
+                              'user name: ${employee.userName}',
                               style: const TextStyle(color: Colors.black),
                             ),
                             Text(
@@ -94,7 +93,7 @@ class _EmployeeStreamScreenState extends State<EmployeeStreamScreen> {
                               style: const TextStyle(color: Colors.black),
                             ),
                             Text(
-                              'DOB: ${employee.dateOfBirth}',
+                              'DOB: ${DateFormat('dd-MM-yyyy').format(employee.dateOfBirth)} ',
                               style: const TextStyle(color: Colors.black),
                             ),
                           ],

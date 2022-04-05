@@ -27,7 +27,7 @@ class _AddAddressState extends State<AddAddress> {
   final TextEditingController _countryController = TextEditingController();
   late EmployeeAddressChangeNotifier _addressChangeNotifier;
   late EmployeeChangeNotifier _employeeNotifier;
-  late List<EmployeeData> _datalist;
+  late List<EmployeeData> _dataList;
   late EmployeeData currentEmp;
 
   @override
@@ -36,14 +36,13 @@ class _AddAddressState extends State<AddAddress> {
     _addressChangeNotifier = context.read<EmployeeAddressChangeNotifier>();
     _employeeNotifier = context.read<EmployeeChangeNotifier>();
     _addressChangeNotifier.addListener(addressListener);
-    _datalist = _employeeNotifier.employeeListStream;
+    _dataList = _employeeNotifier.employeeListStream;
   }
 
   @override
   void dispose() {
     _countryController.dispose();
     _streetController.dispose();
-    // _addressChangeNotifier.dispose();
     _addressChangeNotifier.removeListener(addressListener);
     super.dispose();
   }
@@ -90,7 +89,7 @@ class _AddAddressState extends State<AddAddress> {
                       },
                       validator: (value) =>
                           value == null ? 'field required' : null,
-                      items: _datalist.map((EmployeeData user) {
+                      items: _dataList.map((EmployeeData user) {
                         return DropdownMenuItem<EmployeeData>(
                           value: user,
                           child: Text(
@@ -138,48 +137,14 @@ class _AddAddressState extends State<AddAddress> {
 
   void addressListener() {
     if (_addressChangeNotifier.isAdded) {
-      // ScaffoldMessenger.of(context).showMaterialBanner(
-      //   MaterialBanner(
-      //     backgroundColor: Colors.pink,
-      //     content: const Text('New address is added',
-      //         style: TextStyle(color: Colors.white)),
-      //     actions: [
-      //       TextButton(
-      //           onPressed: () =>
-      //               ScaffoldMessenger.of(context).hideCurrentMaterialBanner(),
-      //           child: const Text(
-      //             'Close',
-      //             style: TextStyle(color: Colors.white),
-      //           ))
-      //     ],
-      //   ),
-      // );
-
       context.read<EmployeeAddressChangeNotifier>().setIsAdded(false);
       ToastUtility.showToast('added successfully');
       Navigator.pop(context);
     }
     if (_addressChangeNotifier.error != '') {
-      // ScaffoldMessenger.of(context).showMaterialBanner(
-      //   MaterialBanner(
-      //     backgroundColor: Colors.pink,
-      //     content: Text(_addressChangeNotifier.error,
-      //         style: const TextStyle(color: Colors.white)),
-      //     actions: [
-      //       TextButton(
-      //           onPressed: () =>
-      //               ScaffoldMessenger.of(context).hideCurrentMaterialBanner(),
-      //           child: const Text(
-      //             'Close',
-      //             style: TextStyle(color: Colors.white),
-      //           ))
-      //     ],
-      //   ),
-      // );
-
       context.read<EmployeeAddressChangeNotifier>().setError();
       ToastUtility.showToast(_addressChangeNotifier.error);
-      Navigator.pop(context);
+      // Navigator.pop(context);
     }
   }
 }
